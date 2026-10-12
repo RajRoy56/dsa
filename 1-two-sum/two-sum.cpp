@@ -8,6 +8,7 @@ public:
             if(mpp.find(comp) != mpp.end()){
                 ans[0]=i;
                 ans[1]=mpp[comp];
+                return ans;
             }
             mpp[nums[i]]=i;
         }
