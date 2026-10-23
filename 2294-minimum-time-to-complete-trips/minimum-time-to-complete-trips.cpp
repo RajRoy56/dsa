@@ -13,7 +13,7 @@ public:
     long long minimumTime(vector<int>& time, int totalTrips) {
         long long ans=0;
         int n=time.size();
-        long long start=1,end= 1LL * (totalTrips)*(*max_element(time.begin(),time.end()));
+        long long start=1,end= 1LL * (totalTrips)*(*min_element(time.begin(),time.end()));
         while(start<=end){
             long long mid= start+(end-start)/2;
             if(counttrip(mid,n,time,totalTrips)>=0){
