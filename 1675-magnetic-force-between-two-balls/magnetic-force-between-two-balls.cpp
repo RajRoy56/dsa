@@ -1,30 +1,43 @@
 class Solution {
 public:
-    int countballs(int mid,int n,vector<int>&positon){
-        int count=1,index=0;
-        for(int i=0;i<n;i++){
-            if(positon[index]+mid<=positon[i]){
-
-            count++;
-            index=i;
+    // return bool for early exit condition
+    bool canPlaceBalls(int mid, int n, const vector<int>& position, int m) {
+        int count = 1;
+        int last_pos = position[0]; // Track value directly instead of index
+        
+        for (int i = 1; i < n; i++) {
+            if (position[i] - last_pos >= mid) {
+                count++;
+                last_pos = position[i];
+                
+                // Early exit: Stop processing immediately if we placed enough balls
+                if (count >= m) return true; 
             }
         }
-        return count;
+        return false;
     }
+
     int maxDistance(vector<int>& position, int m) {
-        int n=position.size(),ans=0;
-        sort(position.begin(),position.end());
-        int start=1,end=position[n-1]-position[0];
-        while(start<=end){
-            int mid=start+(end-start)/2;
-            int count=countballs(mid,n,position);
-            if(count<m){
-                end=mid-1;
+        // to Boost C++ I/O performance
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+
+        int n = position.size();
+        sort(position.begin(), position.end());
+        
+        int start = 1;
+        int end = (position[n - 1] - position[0]) / (m - 1);
+        int ans = 0;
+        
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            
+            if (canPlaceBalls(mid, n, position, m)) {
+                ans = mid;
+                start = mid + 1; // Try for a larger minimum distance
+            } else {
+                end = mid - 1; // Try a smaller distance
             }
-            else{
-                ans=mid;
-                start=mid+1;
-            }  
         }
         return ans;
     }
